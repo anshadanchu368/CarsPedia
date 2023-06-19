@@ -2,6 +2,7 @@ import { Hero } from "@/components";
 import CarCard from "@/components/CarCard";
 import CustomFilter from "@/components/CustomFilter";
 import SearchBar from "@/components/SearchBar";
+import ShowMore from "@/components/ShowMore";
 import { fuels, yearsOfProduction } from "@/constants";
 import { fetchCars } from "@/utils";
 import Image from "next/image";
@@ -9,6 +10,8 @@ import Image from "next/image";
 
 
 export default async function Home({ searchParams}) {
+  console.log(searchParams);
+  
   const allCars= await fetchCars({
     manufacturer:searchParams.manufacturer || '',
     year:searchParams.year || 2022,
@@ -41,6 +44,9 @@ export default async function Home({ searchParams}) {
                   <div className="home__cars-wrapper">
                     {allCars?.map((car)=> <CarCard car={car} />)}
                   </div>
+
+                  <ShowMore  pageNumber={(searchParams.limit || 10)/10} isNext={(searchParams.limit  || 10) > allCars.length}
+                  />
                 </section>
 
               ): (
